@@ -56,7 +56,10 @@ const routes: Routes = [
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
-        strictStateImmutability: true // checks that app state is not mutated in our code
+        strictStateImmutability: true, // checks that app state is not mutated in our code
+        strictActionImmutability: true, // checks that actions are not mutated in our code,
+        strictActionSerializability: true, // checks that actions are serializable = only primitives
+        strictStateSerializability: true, // checks that state is serializable = only primitives
       }
     }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
