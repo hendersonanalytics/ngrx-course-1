@@ -24,7 +24,6 @@ import { AuthEffects } from './auth.effects';
         RouterModule.forChild([{path: '', component: LoginComponent}]),
         StoreModule.forFeature('auth', fromAuth.authReducer),
         EffectsModule.forFeature([AuthEffects])
-
     ],
     declarations: [LoginComponent],
     exports: [LoginComponent]
