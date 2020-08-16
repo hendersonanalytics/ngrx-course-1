@@ -13,7 +13,7 @@ import { CourseActions } from "../course/action-types";
 
 // using EntityState
 export interface CoursesState extends EntityState<Course>{
-
+  allCoursesLoaded: boolean
 }
 
 const adapter = createEntityAdapter<Course>({
@@ -21,12 +21,14 @@ const adapter = createEntityAdapter<Course>({
   // selectId: (course) => course.id -- we'd need to use this if the id field wasn't called 'id'
 });
 
-const initialCoursesState = adapter.getInitialState();
+const initialCoursesState = adapter.getInitialState({
+  allCoursesLoaded: false
+});
 
 export const coursesReducer = createReducer(
   initialCoursesState,
   on(CourseActions.allCoursesLoaded, (state, action) => {
-    return adapter.addAll(action.courses, state);
+    return adapter.addAll(action.courses, {...state, allCoursesLoaded: true});
   })
 );
 
