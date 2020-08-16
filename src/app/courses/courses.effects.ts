@@ -10,12 +10,14 @@ import { allCoursesLoaded } from "./course/course.actions";
 @Injectable()
 export class CoursesEffects {
   public loadCourses$: Observable<Action>;
+  public saveCourse$: Observable<any>;
 
   constructor(
     private actions$: Actions,
     private coursesHttpService: CoursesHttpService
   ) {
     this.createLoadCoursesEffect();
+    this.createSaveCourseEffect();
   }
 
   createLoadCoursesEffect(): void {
@@ -24,6 +26,20 @@ export class CoursesEffects {
         ofType(CourseActions.loadAllCourses),
         concatMap((action) => this.coursesHttpService.findAllCourses()),
         map((courses) => allCoursesLoaded({courses}))
+      );
+    });
+  }
+
+  createSaveCourseEffect(): void {
+    this.saveCourse$ = createEffect(() => {
+      return this.actions$.pipe(
+        ofType(CourseActions.courseUpdated),
+        concatMap((action) => {
+          const { update } = action;
+          return this.coursesHttpService.saveCourse(update.id, update.changes)
+        }),
+        // dispatching this action is optional, I did this for shits and giggles
+        map(() => CourseActions.courseSaved())
       );
     });
   }
