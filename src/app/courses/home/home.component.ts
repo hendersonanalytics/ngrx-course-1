@@ -26,7 +26,6 @@ export class HomeComponent implements OnInit {
 
     advancedCourses$: Observable<Course[]>;
 
-
     constructor(
       private dialog: MatDialog,
       private store: Store<AppState>
