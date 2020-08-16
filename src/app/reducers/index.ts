@@ -1,12 +1,9 @@
 import {
   ActionReducer,
   ActionReducerMap,
-  createFeatureSelector,
-  createSelector,
   MetaReducer
 } from '@ngrx/store';
 import { environment } from '../../environments/environment';
-import { AuthState } from '../auth/reducers';
 import { routerReducer } from '@ngrx/router-store';
 
 export interface AppState {
@@ -21,7 +18,6 @@ export function logger(reducer: ActionReducer<any>) : ActionReducer<any> {
     return reducer(state, action);
   }
 }
-
 
 export const reducers: ActionReducerMap<AppState> = {
   router: routerReducer
