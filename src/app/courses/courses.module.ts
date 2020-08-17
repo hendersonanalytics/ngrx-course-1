@@ -25,6 +25,8 @@ import { EntityDataService, EntityDefinitionService, EntityMetadataMap} from '@n
 import { CourseEntityService } from './services/course-entity.service';
 import { CoursesResolver } from './services/courses.resolver';
 
+import {CoursesDataService} from './services/courses-data.service';
+
 import {compareCourses, Course} from './model/course';
 import {compareLessons, Lesson} from './model/lesson';
 
@@ -87,14 +89,22 @@ const entityMetadata: EntityMetadataMap = {
   providers: [
     CoursesHttpService,
     CourseEntityService,
-    CoursesResolver
+    CoursesResolver,
+    CoursesDataService
   ]
 })
 export class CoursesModule {
 
-  constructor(private eds: EntityDefinitionService) {
+  constructor(
+    private eds: EntityDefinitionService,
+    private entityDataService: EntityDataService,
+    private coursesDataService: CoursesDataService
+    ) {
     // this is how you set up NgRx Data in a lazy-loaded module
     eds.registerMetadataMap(entityMetadata);
+
+    // register our custom data service
+    entityDataService.registerService('Course', coursesDataService);
   }
 
 }
