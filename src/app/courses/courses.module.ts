@@ -22,8 +22,9 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {RouterModule, Routes} from '@angular/router';
 import { EntityDataService, EntityDefinitionService, EntityMetadataMap} from '@ngrx/data';
-import {compareCourses, Course} from './model/course';
+import { CourseEntityService } from './services/course-entity.service';
 
+import {compareCourses, Course} from './model/course';
 import {compareLessons, Lesson} from './model/lesson';
 
 
@@ -38,6 +39,10 @@ export const coursesRoutes: Routes = [
     component: CourseComponent
   }
 ];
+
+const entityMetadata: EntityMetadataMap = {
+  Course: { }
+};
 
 @NgModule({
   imports: [
@@ -73,14 +78,15 @@ export const coursesRoutes: Routes = [
   ],
   entryComponents: [EditCourseDialogComponent],
   providers: [
-    CoursesHttpService
+    CoursesHttpService,
+    CourseEntityService
   ]
 })
 export class CoursesModule {
 
-  constructor() {
-
+  constructor(private eds: EntityDefinitionService) {
+    // this is how you set up NgRx Data in a lazy-loaded module
+    eds.registerMetadataMap(entityMetadata);
   }
-
 
 }
