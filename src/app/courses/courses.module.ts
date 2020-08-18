@@ -23,6 +23,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {RouterModule, Routes} from '@angular/router';
 import { EntityDataService, EntityDefinitionService, EntityMetadataMap} from '@ngrx/data';
 import { CourseEntityService } from './services/course-entity.service';
+import { LessonEntityService } from './services/lesson-entity.service';
 import { CoursesResolver } from './services/courses.resolver';
 
 import {CoursesDataService} from './services/courses-data.service';
@@ -55,6 +56,9 @@ const entityMetadata: EntityMetadataMap = {
     entityDispatcherOptions: {
       optimisticUpdate: true
     }
+  },
+  Lesson: {
+    sortComparer: compareLessons
   }
 };
 
@@ -94,6 +98,7 @@ const entityMetadata: EntityMetadataMap = {
   providers: [
     CoursesHttpService,
     CourseEntityService,
+    LessonEntityService,
     CoursesResolver,
     CoursesDataService
   ]
